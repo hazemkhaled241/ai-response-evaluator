@@ -37,3 +37,10 @@ export const SCORES: Score[] = [1, 2, 3, 4, 5];
 
 
 export type NewEvaluation = Omit<Evaluation, 'id' | 'createdAt'>;
+
+export interface PreferencePair {
+    prompt: string;
+    chosen: string;
+    rejected: string;
+    justification: string;
+}
