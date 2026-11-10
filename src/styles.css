@@ -1,1 +1,85 @@
-/* You can add global styles to this file, and also import other style files */
+:root {
+    --bg: #f4f6f8;
+    --surface: #ffffff;
+    --ink: #1b2730;
+    --muted: #5b6872;
+    --line: #d6dde2;
+    --side-a: #1d6e8f;
+    --side-b: #7b4b94;
+    --error: #b3261e;
+    --success: #2e7d4f;
+    --radius: 6px;
+    font-family: 'Public Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
+    color: var(--ink);
+    background: var(--bg);
+    line-height: 1.5;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+}
+
+h1,
+h2 {
+    line-height: 1.2;
+    margin: 0;
+}
+
+textarea {
+    width: 100%;
+    font: inherit;
+    font-size: 0.95rem;
+    color: var(--ink);
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 0.6rem 0.75rem;
+    resize: vertical;
+}
+
+textarea.ng-invalid.ng-touched {
+    border-color: var(--error);
+}
+
+
+fieldset {
+    border: 0;
+    margin: 0;
+    padding: 0;
+}
+
+legend {
+    font-weight: 600;
+    padding: 0;
+    margin-bottom: 0.5rem;
+}
+
+.error {
+    color: var(--error);
+    font-size: 0.85rem;
+    margin: 0.25rem 0 0;
+}
+
+:focus-visible {
+    outline: 3px solid var(--side-a);
+    outline-offset: 2px;
+}
+
+button {
+    font: inherit;
+    font-weight: 600;
+    cursor: pointer;
+    border-radius: var(--radius);
+    border: 1px solid var(--ink);
+    background: var(--ink);
+    color: #fff;
+    padding: 0.55rem 1.1rem;
+}
+
+button:hover {
+    opacity: 0.88;
+}
