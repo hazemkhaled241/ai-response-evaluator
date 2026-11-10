@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { EvaluationFormComponent } from './components/evaluation-form/evaluation-form.component';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
+  imports: [EvaluationFormComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })

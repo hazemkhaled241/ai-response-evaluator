@@ -1,1 +1,77 @@
-<p>evaluation-form works!</p>
+<form [formGroup]="form" (ngSubmit)="onSubmit()" novalidate>
+    <section class="prompt">
+        <label for="prompt">Prompt</label>
+        <textarea id="prompt" formControlName="prompt" rows="3"
+            placeholder="The question or task both models were given"></textarea>
+        @if (showError('prompt')) {
+        <p class="error">Add the prompt the responses answer.</p>
+        }
+    </section>
+
+    <div class="compare">
+        @for (side of sides; track side.label) {
+        <section class="side side-{{ side.label | lowercase }}">
+            <h2>Response {{ side.label }}</h2>
+
+            <textarea [formControlName]="side.response" rows="8" [attr.aria-label]="'Response ' + side.label"
+                placeholder="Paste the model's response"></textarea>
+            @if (showError(side.response)) {
+            <p class="error">Paste response {{ side.label }}.</p>
+            }
+
+            <fieldset [formGroupName]="side.scores" class="rubric">
+                <legend>Scores for response {{ side.label }}</legend>
+                @for (criterion of criteria; track criterion.key) {
+                <div class="criterion">
+                    <span class="criterion-label">{{ criterion.label }}</span>
+                    <div class="scale" role="radiogroup"
+                        [attr.aria-label]="criterion.label + ', response ' + side.label">
+                        @for (score of scores; track score) {
+                        <label class="score">
+                            <input type="radio" [formControlName]="criterion.key" [value]="score" />
+                            <span>{{ score }}</span>
+                        </label>
+                        }
+                    </div>
+                </div>
+                @if (showError(side.scores + '.' + criterion.key)) {
+                <p class="error">Score {{ criterion.label | lowercase }}.</p>
+                }
+                }
+            </fieldset>
+        </section>
+        }
+    </div>
+
+    <section class="verdict">
+        <fieldset>
+            <legend>Which response is better?</legend>
+            <div class="choices">
+                <label class="choice"><input type="radio" formControlName="preferred" value="A" /> <span>Response
+                        A</span></label>
+                <label class="choice"><input type="radio" formControlName="preferred" value="tie" />
+                    <span>Tie</span></label>
+                <label class="choice"><input type="radio" formControlName="preferred" value="B" /> <span>Response
+                        B</span></label>
+            </div>
+            @if (showError('preferred')) {
+            <p class="error">Choose A, B, or tie.</p>
+            }
+        </fieldset>
+
+        <label for="justification">Justification</label>
+        <textarea id="justification" formControlName="justification" rows="4"
+            placeholder="Explain your choice with specific evidence, e.g. 'B crashes on an empty array.'"></textarea>
+        <p class="hint" [class.error]="showError('justification')">
+            {{ justificationLength }} / {{ minJustification }} characters minimum
+        </p>
+
+        <div class="actions">
+            <button type="submit">Save evaluation</button>
+            @if (saved()) {
+            <span class="saved" role="status">Evaluation saved.</span>
+            }
+        </div>
+    </section>
+
+</form>

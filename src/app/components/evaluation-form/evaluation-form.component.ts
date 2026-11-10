@@ -1,32 +1,36 @@
-import { Component, inject } from '@angular/core';
-import { Criterion, Score } from '../../model/evaluation.model';
+import { Component, inject, signal } from '@angular/core';
+import { CRITERIA, Criterion, Preference, Score, SCORES } from '../../model/evaluation.model';
 import { FormBuilder, FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
+import { LowerCasePipe } from '@angular/common';
 
-export const CRITERIA: { key: Criterion, label: string }[] = [
-  { key: 'correctness', label: 'Correctness' },
-  { key: 'instructionFollowing', label: 'Instruction following' },
-  { key: 'codeQuality', label: 'Code quality' },
-  { key: 'clarity', label: 'Clarity' },
-  { key: 'safety', label: 'Safety' }
-]
+
+const MIN_JUSTIFICATION = 30;
+
 @Component({
   selector: 'app-evaluation-form',
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, LowerCasePipe],
   templateUrl: './evaluation-form.component.html',
   styleUrl: './evaluation-form.component.css'
 })
 export class EvaluationFormComponent {
   private fb = inject(FormBuilder);
   criteria = CRITERIA;
-  touched = false;
+  scores = SCORES;
+  minJustification = MIN_JUSTIFICATION;
+  saved = signal(false);
+
+  sides = [
+    { label: 'A', response: 'responseA', scores: 'scoresA' },
+    { label: 'B', response: 'responseB', scores: 'scoresB' },
+  ] as const;
   form = this.fb.group({
     prompt: ['', Validators.required],
     responseA: ['', Validators.required],
     responseB: ['', Validators.required],
     scoresA: this.buildScoresGroup(),
     scoresB: this.buildScoresGroup(),
-    preferred: [null, Validators.required],
+    preferred: [null as Preference | null, Validators.required],
     justification: ['', [Validators.required, Validators.minLength(30)]]
   });
 
@@ -39,6 +43,17 @@ export class EvaluationFormComponent {
     return this.fb.group(controls);
   }
 
+
+  get justificationLength(): number {
+    return this.form.controls.justification.value?.trim().length ?? 0;
+  }
+
+  showError(path: string): boolean {
+    const control = this.form.get(path);
+    return !!control && control.invalid && control.touched;
+  }
+
+
   onSubmit() {
     if (this.form.invalid) {
       this.form.markAsTouched();
@@ -46,5 +61,8 @@ export class EvaluationFormComponent {
     }
     else
       console.log(this.form.getRawValue());
+    this.form.reset();
+    this.saved.set(true);
+    setTimeout(() => this.saved.set(false), 3000);
   }
 }

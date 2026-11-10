@@ -23,6 +23,16 @@ export interface Evaluation {
     createdAt: string
 }
 
+export const CRITERIA: { key: Criterion; label: string }[] = [
+    { key: 'correctness', label: 'Correctness' },
+    { key: 'instructionFollowing', label: 'Instruction following' },
+    { key: 'codeQuality', label: 'Code quality' },
+    { key: 'clarity', label: 'Clarity' },
+    { key: 'safety', label: 'Safety' },
+];
+
+export const SCORES: Score[] = [1, 2, 3, 4, 5];
+
 
 
 

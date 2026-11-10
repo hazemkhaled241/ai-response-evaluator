@@ -1,0 +1,157 @@
+form {
+    display: grid;
+    gap: 1.75rem;
+}
+
+label[for],
+.prompt label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 0.4rem;
+}
+
+
+.compare {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.25rem;
+}
+
+@media (max-width: 760px) {
+    .compare {
+        grid-template-columns: 1fr;
+    }
+}
+
+.side {
+    --accent: var(--side-a);
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-top: 4px solid var(--accent);
+    border-radius: var(--radius);
+    padding: 1.1rem;
+    display: grid;
+    gap: 0.9rem;
+}
+
+.side-b {
+    --accent: var(--side-b);
+}
+
+.side h2 {
+    font-size: 1.1rem;
+    color: var(--accent);
+}
+
+.rubric legend {
+    font-size: 0.95rem;
+}
+
+.criterion {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    padding: 0.35rem 0;
+}
+
+.criterion-label {
+    font-size: 0.92rem;
+}
+
+.scale {
+    display: flex;
+    gap: 0.25rem;
+}
+
+.score {
+    position: relative;
+}
+
+.score input {
+    position: absolute;
+    opacity: 0;
+    inset: 0;
+    margin: 0;
+    cursor: pointer;
+}
+
+.score span {
+    display: grid;
+    place-items: center;
+    width: 2.1rem;
+    height: 2.1rem;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: var(--muted);
+    background: var(--bg);
+}
+
+.score input:checked+span {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #fff;
+}
+
+.score input:focus-visible+span {
+    outline: 3px solid var(--accent);
+    outline-offset: 2px;
+}
+
+.verdict {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 1.1rem;
+    display: grid;
+    gap: 0.6rem;
+}
+
+.choices {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 0.4rem;
+}
+
+.choice {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 0.45rem 0.85rem;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.choice:has(input:checked) {
+    border-color: var(--ink);
+    background: var(--bg);
+}
+
+.hint {
+    color: var(--muted);
+    font-size: 0.85rem;
+    margin: 0;
+}
+
+.actions {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 0.4rem;
+}
+
+.saved {
+    color: var(--success);
+    font-weight: 600;
+}
+
+.side textarea {
+    font-family: ui-monospace, 'Cascadia Code', 'Fira Code', Consolas, monospace;
+    font-size: 0.88rem;
+    font-variant-ligatures: none;
+}
