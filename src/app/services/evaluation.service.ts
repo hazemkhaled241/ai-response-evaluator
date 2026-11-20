@@ -8,9 +8,9 @@ const STORAGE_KEY = 'ai-response-evaluator:evaluations';
 export class EvaluationService {
   private readonly _evaluations = signal<Evaluation[]>(this.load())
   readonly evaluations = this._evaluations.asReadonly();
-  readonly count = computed(() => {
-    this._evaluations.length;
-  })
+  readonly count = computed(() =>
+    this._evaluations().length
+  )
   constructor() { }
 
   add(data: NewEvaluation): Evaluation {
@@ -67,7 +67,7 @@ export class EvaluationService {
 
   private save(): void {
     try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(this._evaluations))
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(this._evaluations()))
     } catch (e) {
       throw (e);
     }
