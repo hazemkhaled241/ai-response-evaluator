@@ -44,3 +44,9 @@ export interface PreferencePair {
     rejected: string;
     justification: string;
 }
+
+export function averageScore(scores: ResponseScores): number {
+    const values = CRITERIA.map((c) => scores[c.key]);
+    const total = values.reduce((sum, value) => sum + value, 0);
+    return Math.round((total / values.length) * 10) / 10;
+}

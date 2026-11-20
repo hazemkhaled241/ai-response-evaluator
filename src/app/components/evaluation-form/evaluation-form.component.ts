@@ -1,5 +1,6 @@
 import { Component, inject, signal } from '@angular/core';
-import { CRITERIA, Criterion, Preference, Score, SCORES } from '../../model/evaluation.model';
+import { CRITERIA, Criterion, NewEvaluation, Preference, Score, SCORES } from '../../model/evaluation.model';
+import { EvaluationService } from '../../services/evaluation.service';
 import { FormBuilder, FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { LowerCasePipe } from '@angular/common';
 
@@ -15,6 +16,7 @@ const MIN_JUSTIFICATION = 30;
 })
 export class EvaluationFormComponent {
   private fb = inject(FormBuilder);
+  private evaluationService = inject(EvaluationService);
   criteria = CRITERIA;
   scores = SCORES;
   minJustification = MIN_JUSTIFICATION;
@@ -56,11 +58,10 @@ export class EvaluationFormComponent {
 
   onSubmit() {
     if (this.form.invalid) {
-      this.form.markAsTouched();
+      this.form.markAllAsTouched();
       return;
     }
-    else
-      console.log(this.form.getRawValue());
+    this.evaluationService.add(this.form.getRawValue() as NewEvaluation);
     this.form.reset();
     this.saved.set(true);
     setTimeout(() => this.saved.set(false), 3000);
