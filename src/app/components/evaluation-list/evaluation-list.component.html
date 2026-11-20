@@ -1,1 +1,39 @@
-<p>evaluation-list works!</p>
+<section class="saved-list" aria-labelledby="saved-heading">
+    <header>
+        <h2 id="saved-heading">Saved evaluations ({{ count() }})</h2>
+        @if (count() > 0) {
+        <div class="export">
+            <button type="button" (click)="exportJson()">Export JSON</button>
+            <button type="button" (click)="exportPreferencePairs()">Export preference pairs</button>
+            <button type="button" class="danger" (click)="clearAll()">Delete all</button>
+        </div>
+        }
+    </header>
+
+    @if (count() === 0) {
+    <p class="empty">Nothing saved yet. Score your first pair of responses above, and it will appear here.</p>
+    } @else {
+    <ul>
+        @for (evaluation of evaluations(); track evaluation.id) {
+        <li>
+            <div class="item-main">
+                <p class="item-prompt">{{ evaluation.prompt }}</p>
+                <p class="item-justification">{{ evaluation.justification }}</p>
+            </div>
+            <div class="item-side">
+                <span class="verdict-badge verdict-{{ evaluation.preferred }}">
+                    {{ evaluation.preferred === 'tie' ? 'Tie' : 'Prefers ' + evaluation.preferred }}
+                </span>
+                <span class="averages">
+                    A {{ average(evaluation.scoresA) }} vs B {{ average(evaluation.scoresB) }}
+                </span>
+                <time [attr.datetime]="evaluation.createdAt">{{ evaluation.createdAt | date: 'MMM d, y, h:mm a'
+                    }}</time>
+                <button type="button" class="link-danger" (click)="remove(evaluation.id)"
+                    [attr.aria-label]="'Delete evaluation: ' + evaluation.prompt">Delete</button>
+            </div>
+        </li>
+        }
+    </ul>
+    }
+</section>
